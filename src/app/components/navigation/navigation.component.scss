@@ -1,0 +1,29 @@
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+nav {
+  width: 100%;
+  position: sticky;
+  height: 50px;
+  background: black;
+
+  mat-list {
+    display: flex;
+
+    &-item {
+      width: unset;
+
+      cursor: pointer;
+      transition: 0.2s;
+      &:hover {
+        transform: translateY(-4px);
+      }
+    }
+  }
+}

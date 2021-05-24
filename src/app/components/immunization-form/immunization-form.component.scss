@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  justify-content: center;
+
+  form {
+    background: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px;
+  }
+
+  .subpotentReasons {
+    display: flex;
+  }
+}

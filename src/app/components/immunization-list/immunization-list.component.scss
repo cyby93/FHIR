@@ -1,0 +1,13 @@
+:host {
+  table {
+    width: 100%;
+  }
+
+  mat-icon {
+    cursor:pointer;
+
+    &:hover{
+      color: mediumpurple;
+    }
+  }
+}

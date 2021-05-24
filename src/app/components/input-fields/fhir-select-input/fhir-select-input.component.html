@@ -1,0 +1,16 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{label | titlecase}}</mat-label>
+  <mat-select (selectionChange)="onChange($event.value)" (blur)="onTouched()" [disabled]="disabled">
+    <ng-container *ngIf="isInputAnObjectArray(); else templateForStrings">
+      <mat-option *ngFor="let option of options" [value]="option['key']">
+        {{option['value']}}
+      </mat-option>
+    </ng-container>
+    <ng-template #templateForStrings>
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{option}}
+      </mat-option>
+
+    </ng-template>
+  </mat-select>
+</mat-form-field>

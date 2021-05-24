@@ -1,0 +1,93 @@
+<form [formGroup]="entryUploadForm" (ngSubmit)="emitSubmission()">
+  <mat-error *ngIf="hasRequiredError('status')"> Status is required!</mat-error>
+  <fhir-select-input formControlName="status"
+                     [options]="statusOptions" [label]="'Status'"></fhir-select-input>
+
+  <mat-error *ngIf="hasRequiredError('vaccineCode')"> Vaccine code is required!</mat-error>
+  <fhir-select-input formControlName="vaccineCode"
+                     [options]="vaccineCodes" [label]="'Vaccine'"></fhir-select-input>
+
+  <mat-error *ngIf="hasRequiredError('patient')"> Patient is required!</mat-error>
+  <fhir-select-input formControlName="patient"
+                     [options]="['p1', 'p2', 'p23', 'p4']"
+                     [label]="'Patient'"></fhir-select-input>
+
+  <mat-error *ngIf="hasRequiredError('reasonCode')"> Reason code is required!</mat-error>
+  <fhir-select-input formControlName="reasonCode"
+                     [options]="reasonOptions"
+                     [label]="'Reason code'"></fhir-select-input>
+
+  <mat-error *ngIf="hasRequiredError('reasonReference')"> Reason reference is required!</mat-error>
+  <fhir-select-input formControlName="reasonReference"
+                     [options]="reasonReference"
+                     [label]="'Reason reference'"></fhir-select-input>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Occurence Date</mat-label>
+    <input matInput type="date" formControlName="occurrenceDateTime">
+  </mat-form-field>
+
+  <mat-checkbox formControlName="isSubpotent">Is subpotent?</mat-checkbox>
+
+  <ng-container formArrayName="subpotentReason" *ngIf="entryUploadForm.controls.isSubpotent.value">
+    <div class="subpotentReasons" *ngFor="let spReason of subpotentReasonArray.controls; let i = index">
+      <fhir-select-input [formControl]="spReason"
+                         [options]="subpotentReasons"
+                         [label]="'Subpotent reason'"></fhir-select-input>
+      <mat-icon class="delete-btn" (click)="deleteFormArrayElementAt(subpotentReasonArray, i)">
+        delete_forever
+      </mat-icon>
+    </div>
+    <button mat-raised-button type="button" (click)="addControlToFormArray(subpotentReasonArray)">
+      Add Subpotent Reason
+    </button>
+  </ng-container>
+
+
+  <mat-error *ngIf="hasRequiredError('programEligibility')"> At least one program eligibility is required!</mat-error>
+  <ng-container formArrayName="programEligibility">
+    <div class="subpotentReasons" *ngFor="let item of programEligibilityArray.controls; let i = index">
+      <fhir-select-input [formControl]="item"
+                         [options]="programEligibilities"
+                         [label]="'Program eligibility'"></fhir-select-input>
+      <mat-icon class="delete-btn" (click)="deleteFormArrayElementAt(programEligibilityArray, i)">
+        delete_forever
+      </mat-icon>
+    </div>
+    <button mat-raised-button type="button" (click)="addControlToFormArray(programEligibilityArray)">
+      Add program eligibility
+    </button>
+  </ng-container>
+
+  <mat-error *ngIf="hasRequiredError('fundingSource')"> Funding source is required!</mat-error>
+  <fhir-select-input formControlName="fundingSource"
+                     [options]="fundingSources"
+                     [label]="'Funding source'"></fhir-select-input>
+
+  <mat-error *ngIf="hasRequiredError('reaction')"> At least one reaction is required!</mat-error>
+  <ng-container formArrayName="reaction">
+    <div class="subpotentReasons" *ngFor="let group of reactionArray.controls; let i = index">
+      <div class="reaction-block" [formGroup]="group">
+        <mat-form-field class="example-full-width">
+          <mat-label>Date</mat-label>
+          <input matInput type="date" formControlName="date">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <input matInput
+                 formControlName="detail"
+                 placeholder="Detailed description for reaction...">
+        </mat-form-field>
+        <mat-checkbox formControlName="reported">Is already reported?</mat-checkbox>
+
+      </div>
+      <mat-icon class="delete-btn" (click)="deleteFormArrayElementAt(reactionArray, i)">
+        delete_forever
+      </mat-icon>
+    </div>
+    <button mat-raised-button type="button" (click)="addReactionFormGroup()">
+      Add reaction
+    </button>
+  </ng-container>
+
+  <button mat-button type="submit" color="primary">{{formActionLabel | sentenceCase}}</button>
+</form>
